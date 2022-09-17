@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
-class utils {
+object utils {
 
     /*
     we are extanding string class to this function to digest timestamp, private key
@@ -41,7 +41,6 @@ class utils {
 
     /*
      temporary glid function for downloading icon of the char
-
      */
     fun ImageView.load(url: String) {
         Glide.with(context)
