@@ -1,6 +1,6 @@
 package com.grandpa.marvelapp.model.dto
 
-class CharacterThumbnailDto(
+class ThumbnailDto(
     var path: String,
     var extension: String
 )
