@@ -7,9 +7,10 @@ import java.util.*
 
 class utils {
 
-
-    // string digestion ...
-
+    /*
+    we are extanding string class to this function to digest timestamp, private key
+    & public key
+     */
     fun String.md5(): String {
         try {
             val digest = java.security.MessageDigest.getInstance("MD5")
@@ -31,12 +32,17 @@ class utils {
     }
 
 
-    // getting time stamp in string using utc ...
-    fun getTimeStam(): String {
+    /* getting time stamp in string using utc ...
+        will be called with every api
+     */
+    fun getTimeStamp(): String {
         return (Calendar.getInstance(TimeZone.getTimeZone("UTC")).timeInMillis / 1000L).toString()
     }
 
-    // glide for picture ...
+    /*
+     temporary glid function for downloading icon of the char
+
+     */
     fun ImageView.load(url: String) {
         Glide.with(context)
             .load(url)
