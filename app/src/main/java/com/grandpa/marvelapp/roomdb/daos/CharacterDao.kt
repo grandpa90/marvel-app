@@ -14,6 +14,9 @@ interface CharacterDao {
     @Update
     fun update(character: CharacterEntity)
 
+    @Query("DELETE FROM CHARACTERENTITY WHERE character_id= :_id")
+    fun deleteCharacter(_id: Long)
+
     @Query("DELETE  from CHARACTERENTITY")
     fun deleteAll()
 
@@ -21,5 +24,5 @@ interface CharacterDao {
     fun getAllCharacter(): Flowable<List<CharacterEntity>>
 
     @Query("SELECT * FROM CharacterEntity where character_id= :_id")
-    fun getCharacter(_id: Int): Flowable<CharacterEntity>
+    fun getCharacter(_id: Long): Flowable<CharacterEntity>
 }
