@@ -1,6 +1,7 @@
 package com.grandpa.marvelapp.model.api
 
 import com.google.gson.annotations.SerializedName
+import com.grandpa.marvelapp.model.dto.CharacterDto
 
 data class Character(
     @SerializedName("id")
@@ -10,4 +11,13 @@ data class Character(
     @SerializedName("description")
     var mcDescription: String,
     var thumbnail: Thumbnail
-)
+) {
+    fun characterToDto(): CharacterDto {
+        return CharacterDto(
+            _id = _id,
+            name = mcName,
+            description = mcDescription,
+            thumbnail = (thumbnail.path + thumbnail.extension)
+        )
+    }
+}
