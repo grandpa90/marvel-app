@@ -26,7 +26,7 @@ class CharacterViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun updateCharacter(characterDto: CharacterDto) {
-        characterRepository.updateCharacer(
+        characterRepository.updateCharacter(
             CharacterEntity(
                 characterDto._id,
                 characterDto.name,
