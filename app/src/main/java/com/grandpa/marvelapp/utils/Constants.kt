@@ -2,6 +2,12 @@ package com.grandpa.marvelapp.utils
 
 class Constants {
 
+
+    object ROOM_DB {
+        const val ROOM_DB_NAME = "MarvelRoomDB"
+    }
+
+
     /*
     these key will be used on each call of the API
 
