@@ -24,9 +24,14 @@ class CharacterRepository(application: Application) {
     }
 
     // insert
-    fun insertCharacter(characterEntity: CharacterEntity) {
+    fun insertCharacter(characterDto: CharacterDto) {
         Completable.create {
-            characterDao.insert(characterEntity)
+            characterDao.insert(
+                CharacterEntity(
+                    characterDto._id, characterDto.name,
+                    characterDto.description, characterDto.thumbnail
+                )
+            )
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,9 +49,14 @@ class CharacterRepository(application: Application) {
     }
 
     // update
-    fun updateCharacter(characterEntity: CharacterEntity) {
+    fun updateCharacter(characterDto: CharacterDto) {
         Completable.create {
-            characterDao.update(characterEntity)
+            characterDao.update(
+                CharacterEntity(
+                    characterDto._id, characterDto.name,
+                    characterDto.description, characterDto.thumbnail
+                )
+            )
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {

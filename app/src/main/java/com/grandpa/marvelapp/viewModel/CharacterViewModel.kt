@@ -4,36 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.repositories.CharacterRepository
-import com.grandpa.marvelapp.roomdb.entities.CharacterEntity
 import io.reactivex.Flowable
 
 class CharacterViewModel(application: Application) : AndroidViewModel(application) {
-    var characterRepository: CharacterRepository
+    private var characterRepository: CharacterRepository
 
     init {
         characterRepository = CharacterRepository(application)
     }
 
     fun insertCharacter(characterDto: CharacterDto) {
-        characterRepository.insertCharacter(
-            CharacterEntity(
-                characterDto._id,
-                characterDto.name,
-                characterDto.description,
-                characterDto.thumbnail
-            )
-        )
+        characterRepository.insertCharacter(characterDto)
     }
 
     fun updateCharacter(characterDto: CharacterDto) {
-        characterRepository.updateCharacter(
-            CharacterEntity(
-                characterDto._id,
-                characterDto.name,
-                characterDto.description,
-                characterDto.thumbnail
-            )
-        )
+        characterRepository.updateCharacter(characterDto)
     }
 
     fun deleteAllCharacters() {
