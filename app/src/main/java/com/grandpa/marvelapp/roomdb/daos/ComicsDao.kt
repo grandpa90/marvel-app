@@ -16,7 +16,7 @@ interface ComicsDao {
     fun update(comicsEntity: ComicsEntity)
 
     @Query("SELECT * FROM COMICSENTITY")
-    fun getAllComics(): List<Flowable<ComicsEntity>>
+    fun getAllComics(): Flowable<List<ComicsEntity>>
 
     @Query("SELECT * FROM COMICSENTITY where :_id")
     fun getComics(_id: Long): Flowable<ComicsEntity>
@@ -25,7 +25,7 @@ interface ComicsDao {
     fun deleteAllComics()
 
     @Query("DELETE FROM COMICSENTITY where:_id")
-    fun detelComics(_id: Long)
+    fun deleteComics(_id: Long)
 
 
 }
