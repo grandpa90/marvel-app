@@ -120,7 +120,6 @@ class CharacterRepository(application: Application) {
         val flowableEntityList = characterDao.getAllCharacter()
         return flowableEntityList.map { listEntity ->
             listEntity.map {
-                characterDao.insert(it)
                 characterDto = CharacterDto(it._id, it.name, it.description, it.thumbnail)
                 characterDto
             }
@@ -135,6 +134,12 @@ class CharacterRepository(application: Application) {
         return flowableList.map {
             it.data.result
                 .map { character ->
+                    characterDao.insert(
+                        CharacterEntity(
+                            characterDto._id, characterDto.name,
+                            characterDto.description, characterDto.thumbnail
+                        )
+                    )
                     characterDto = character.characterToDto()
                     // here we need to insert
                     characterDto
