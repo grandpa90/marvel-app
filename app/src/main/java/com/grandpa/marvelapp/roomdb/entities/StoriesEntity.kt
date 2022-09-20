@@ -3,6 +3,7 @@ package com.grandpa.marvelapp.roomdb.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.grandpa.marvelapp.model.dto.StoriesDto
 
 
 @Entity(tableName = "stories_entity")
@@ -16,4 +17,8 @@ class StoriesEntity(
     var description: String,
     @ColumnInfo(name = "stories_thumbnail")
     var thumbnail: String
-)
+) {
+    fun toStoriesDto(): StoriesDto {
+        return StoriesDto(_id, title, description, thumbnail)
+    }
+}
