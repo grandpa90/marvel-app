@@ -4,5 +4,5 @@ class SeriesDto(
     var _id: Long,
     var title: String,
     var description: String,
-    var thumbnail: ThumbnailDto
+    var thumbnail: String
 )
