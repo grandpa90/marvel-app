@@ -147,13 +147,15 @@ class ComicsRepository(application: Application) {
         val flowableList = retroInstance.getComics(characterId = characterId)
         return flowableList.map {
             it.data.result.map { comics ->
+
+                comicsDto = comics.toComicsDto()
+
                 comicsDao.insert(
                     ComicsEntity(
                         comicsDto.id, comicsDto.title,
                         comicsDto.description, comicsDto.thumbnail
                     )
                 )
-                comicsDto = comics.toComicsDto()
                 comicsDto
             }
         }
