@@ -14,7 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ComisRepository(application: Application) {
+class ComicsRepository(application: Application) {
 
     var comicsDao: ComicsDao
     var db: MarvelRoomDB

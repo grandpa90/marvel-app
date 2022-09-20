@@ -3,14 +3,14 @@ package com.grandpa.marvelapp.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.grandpa.marvelapp.model.dto.ComicsDto
-import com.grandpa.marvelapp.repositories.ComisRepository
+import com.grandpa.marvelapp.repositories.ComicsRepository
 import io.reactivex.Flowable
 
 class ComicsViewModel(application: Application) : AndroidViewModel(application) {
-    private var comicsRepository: ComisRepository
+    private var comicsRepository: ComicsRepository
 
     init {
-        comicsRepository = ComisRepository(application)
+        comicsRepository = ComicsRepository(application)
     }
 
     fun insertComics(comicsDto: ComicsDto) {
