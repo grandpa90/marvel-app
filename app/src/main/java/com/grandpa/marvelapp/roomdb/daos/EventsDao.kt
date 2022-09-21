@@ -4,7 +4,10 @@ import androidx.room.*
 import com.grandpa.marvelapp.roomdb.entities.EventsEntity
 import io.reactivex.Flowable
 
-
+/*
+* dao for insert update delete and select
+* for room db
+* */
 @Dao
 interface EventsDao {
 

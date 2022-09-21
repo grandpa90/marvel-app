@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.grandpa.marvelapp.model.dto.SeriesDto
 import com.grandpa.marvelapp.repositories.SeriesRepository
 import io.reactivex.Flowable
+// calling all function of the repo inside the view model
 
 class SeriesViewModel(application: Application) : AndroidViewModel(application) {
     var seriesRepository: SeriesRepository

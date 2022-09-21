@@ -7,6 +7,7 @@ import retrofit2.http.Path
 
 interface RetroService {
 
+    // calling all the api into marvel needed inside retrofit
     @GET("characters")
     fun getCharacters(): Flowable<CharacterResponse>
 

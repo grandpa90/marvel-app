@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.repositories.CharacterRepository
 import io.reactivex.Flowable
-
+// calling all function of the repo inside the view model
 class CharacterViewModel(application: Application) : AndroidViewModel(application) {
     private var characterRepository: CharacterRepository
 

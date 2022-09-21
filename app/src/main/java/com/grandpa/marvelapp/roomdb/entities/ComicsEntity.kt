@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.grandpa.marvelapp.model.dto.ComicsDto
 
+// entities for room db
 
 @Entity(tableName = "ComicsEntity")
 class ComicsEntity(

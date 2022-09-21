@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.grandpa.marvelapp.model.dto.SeriesDto
+// entities for room db
 
 @Entity(tableName = "series_entity")
 class SeriesEntity(

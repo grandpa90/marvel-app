@@ -6,7 +6,10 @@ import androidx.room.Query
 import androidx.room.Update
 import com.grandpa.marvelapp.roomdb.entities.ComicsEntity
 import io.reactivex.Flowable
-
+/*
+* dao for insert update delete and select
+* for room db
+* */
 interface ComicsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.grandpa.marvelapp.model.dto.EventsDto
 import com.grandpa.marvelapp.repositories.EventsRepository
 import io.reactivex.Flowable
+// calling all function of the repo inside the view model
 
 class EventsViewModel(application: Application) : AndroidViewModel(application) {
 

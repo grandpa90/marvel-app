@@ -1,4 +1,5 @@
 package com.grandpa.marvelapp.viewModel
+// calling all function of the repo inside the view model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -20,6 +21,14 @@ class StoriesViewModel(application: Application) : AndroidViewModel(application)
 
     fun updateStory(storiesDto: StoriesDto) {
         storiesRepository.updateStory(storiesDto)
+    }
+
+    fun deleteAllStories() {
+        storiesRepository.deleteAllStories()
+    }
+
+    fun deleteStories(_id: Long) {
+        storiesRepository.deleteStories(_id)
     }
 
     fun getAllStories(): Flowable<List<StoriesDto>> {

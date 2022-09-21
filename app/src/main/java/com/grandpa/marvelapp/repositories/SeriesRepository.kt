@@ -12,21 +12,23 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-
+// repository for manipulating the data
 class SeriesRepository(application: Application) {
-
+    // declaring interface and room db
     var seriesDao: SeriesDao
     var db: MarvelRoomDB
 
     init {
+        // initializing room db and interface
         db = MarvelRoomDB.getDatabase(application)
         seriesDao = db.SeriesDao()
     }
 
+    // insert into room db with completable observer
     fun insertSeries(seriesDto: SeriesDto) {
         Completable.create {
             seriesDao.insert(seriesDto.toSeriesEntity())
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -44,10 +46,11 @@ class SeriesRepository(application: Application) {
             })
     }
 
+    // update room db with completable observer
     fun updateSeries(seriesDto: SeriesDto) {
         Completable.create {
             seriesDao.insert(seriesDto.toSeriesEntity())
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,10 +67,11 @@ class SeriesRepository(application: Application) {
             })
     }
 
+    // delete all from room db with completable observer
     fun deleteAllSeries() {
         Completable.create {
             seriesDao.deleteAllSeries()
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -83,10 +87,11 @@ class SeriesRepository(application: Application) {
             })
     }
 
+    // delete by id from room db with completable observer
     fun deleteSeries(_id: Long) {
         Completable.create {
             seriesDao.deleteSeries(_id)
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -102,6 +107,8 @@ class SeriesRepository(application: Application) {
             })
     }
 
+    // get all data from room db with Flowable observer
+    // mapping entities into dto
     fun getAllSeries(): Flowable<List<SeriesDto>> {
         lateinit var seriesDto: SeriesDto
         val flowableList = seriesDao.getAllSeries()
@@ -115,6 +122,8 @@ class SeriesRepository(application: Application) {
         }
     }
 
+    // get by id  data from room db with Flowable observer
+    // mapping entities into dto
     fun getSeries(_id: Long): Flowable<SeriesDto> {
         lateinit var seriesDto: SeriesDto
         val flowable = seriesDao.getSeries(_id)
@@ -124,6 +133,8 @@ class SeriesRepository(application: Application) {
         }
     }
 
+    // get from remote db with flowable observer
+    // mapping api model into dto
     fun getSeriesRemote(characterId: Long): Flowable<List<SeriesDto>> {
         lateinit var seriesDto: SeriesDto
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)

@@ -3,7 +3,10 @@ package com.grandpa.marvelapp.roomdb.daos
 import androidx.room.*
 import com.grandpa.marvelapp.roomdb.entities.StoriesEntity
 import io.reactivex.Flowable
-
+/*
+* dao for insert update delete and select
+* for room db
+* */
 @Dao
 interface StoriesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -40,7 +40,7 @@ object utils {
     }
 
     /*
-     temporary glid function for downloading icon of the char
+     temporary glide function for downloading icon of the char
      */
     fun ImageView.load(url: String) {
         Glide.with(context)

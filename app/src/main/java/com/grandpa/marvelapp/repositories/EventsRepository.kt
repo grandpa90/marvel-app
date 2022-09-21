@@ -12,22 +12,23 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-
+// repository for manipulating data
 class EventsRepository(application: Application) {
-
+    // declaring interface and room db
     var eventsDao: EventsDao
     var db: MarvelRoomDB
 
     init {
+        // initializing interface and room db
         db = MarvelRoomDB.getDatabase(application)
         eventsDao = db.EventsDao()
     }
 
-
+    // insert into room db with completable observer
     fun insertEvents(eventsDto: EventsDto) {
         Completable.create {
             eventsDao.insert(eventsDto.toEventsEntity())
-            it.onComplete()
+            it.onComplete() // signal streamer to be completed
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -43,10 +44,11 @@ class EventsRepository(application: Application) {
             })
     }
 
+    // update into room db with completable observer
     fun updateEvents(eventsDto: EventsDto) {
         Completable.create {
             eventsDao.update(eventsDto.toEventsEntity())
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -64,10 +66,11 @@ class EventsRepository(application: Application) {
             })
     }
 
+    // delete all from room db with completable observer
     fun deleteEvents() {
         Completable.create {
             eventsDao.deleteAllEvenet()
-            it.onComplete()
+            it.onComplete() // signal the streamer
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -84,10 +87,11 @@ class EventsRepository(application: Application) {
             })
     }
 
+    // delete by id with completable observer
     fun deleteEvent(_id: Long) {
         Completable.create {
             eventsDao.deleteEvenet(_id)
-            it.onComplete()
+            it.onComplete() // singal the observer
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -103,6 +107,8 @@ class EventsRepository(application: Application) {
             })
     }
 
+    // get all from room db with flowable observer
+    // mapping entities into dto
     fun getAllEvents(): Flowable<List<EventsDto>> {
         lateinit var eventsDto: EventsDto
         val flowableList = eventsDao.getAllEvents()
@@ -114,6 +120,8 @@ class EventsRepository(application: Application) {
         }
     }
 
+    // get by id  from room db with flowable observer
+    // mapping entities into dto
     fun getEvent(_id: Long): Flowable<EventsDto> {
         lateinit var eventsDto: EventsDto
         val flowable = eventsDao.getEvent(_id)
@@ -122,6 +130,8 @@ class EventsRepository(application: Application) {
             eventsDto
         }
     }
+    // get from remote db and insert into room db
+    // mapping entities into dto
 
     fun getEventsRemote(characterId: Long): Flowable<List<EventsDto>> {
         lateinit var eventsDto: EventsDto

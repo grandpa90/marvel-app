@@ -7,7 +7,10 @@ import androidx.room.RoomDatabase
 import com.grandpa.marvelapp.roomdb.daos.*
 import com.grandpa.marvelapp.roomdb.entities.*
 import com.grandpa.marvelapp.utils.Constants
-
+/*
+* room db class to be initiated with all correspondent interfaces (dao)
+* if migration needed more steps need to be added
+* */
 @Database(
     entities = [CharacterEntity::class,
         ComicsEntity::class, EventsEntity::class,

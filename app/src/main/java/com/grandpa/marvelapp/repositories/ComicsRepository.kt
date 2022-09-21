@@ -13,23 +13,26 @@ import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+// repository for manipulating online and ofline data
 
 class ComicsRepository(application: Application) {
 
+    // declaring interface and room db
     var comicsDao: ComicsDao
     var db: MarvelRoomDB
 
     init {
+        // initializing interface and room db
         db = MarvelRoomDB.getDatabase(application)
         comicsDao = db.ComicsDao()
     }
 
 
+    // insert into room db  with completable observer
     fun insertComics(comicsDto: ComicsDto) {
-        // var disposable = CompositeDisposable()
         Completable.create {
             comicsDao.insert(comicsDto.toComicsEntity())
-            it.onComplete()
+            it.onComplete() // signal the streamer
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -48,11 +51,11 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
+    // update room db with completable observer
     fun updateComics(comicsDto: ComicsDto) {
         Completable.create {
             comicsDao.update(comicsDto.toComicsEntity())
-            it.onComplete()
+            it.onComplete() // signal the steamer to be completed
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -69,11 +72,11 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
+    // delete all comics from room db
     fun deleteAllComics() {
         Completable.create {
             comicsDao.deleteAllComics()
-            it.onComplete()
+            it.onComplete() // signal the streamer to be completed
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -90,11 +93,11 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
+    // delete comicss by id from roomdb  with completable observer
     fun deleteComics(_id: Long) {
         Completable.create {
             comicsDao.deleteComics(_id = _id)
-            it.onComplete()
+            it.onComplete() // signal the streamer
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -112,6 +115,8 @@ class ComicsRepository(application: Application) {
             })
     }
 
+    // get all comics from room db with Flowable observer
+    // mapping entities into dto to be presented into the view
 
     fun getAllComics(): Flowable<List<ComicsDto>> {
         val flowableList = comicsDao.getAllComics()
@@ -125,7 +130,8 @@ class ComicsRepository(application: Application) {
         }
     }
 
-
+    // get  comics by id  from room db with Flowable observer
+    // mapping entities into dto to be presented into the view
     fun getComics(_id: Long): Flowable<ComicsDto> {
         val flowableList = comicsDao.getComics(_id = _id)
         lateinit var comicsDto: ComicsDto
@@ -135,7 +141,8 @@ class ComicsRepository(application: Application) {
         }
     }
 
-
+    // get all comics from remote  db with Flowable observer
+    // mapping entities into dto to be presented into the view
     fun getComicsRemote(characterId: Long): Flowable<List<ComicsDto>> {
         lateinit var comicsDto: ComicsDto
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
