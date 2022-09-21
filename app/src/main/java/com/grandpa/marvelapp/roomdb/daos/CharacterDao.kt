@@ -11,7 +11,7 @@ interface CharacterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(character: CharacterEntity)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(character: CharacterEntity)
 
     @Query("DELETE FROM CHARACTERENTITY WHERE character_id= :_id")
