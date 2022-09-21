@@ -1,12 +1,11 @@
 package com.grandpa.marvelapp.repositories
 
 import android.app.Application
-import com.grandpa.marvelapp.model.dto.ComicsDto
+import com.grandpa.marvelapp.model.dto.SeriesDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
 import com.grandpa.marvelapp.roomdb.MarvelRoomDB
-import com.grandpa.marvelapp.roomdb.daos.ComicsDao
-import com.grandpa.marvelapp.roomdb.entities.ComicsEntity
+import com.grandpa.marvelapp.roomdb.daos.SeriesDao
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -14,44 +13,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ComicsRepository(application: Application) {
+class SeriesRepository(application: Application) {
 
-    var comicsDao: ComicsDao
+    var seriesDao: SeriesDao
     var db: MarvelRoomDB
 
     init {
         db = MarvelRoomDB.getDatabase(application)
-        comicsDao = db.ComicsDao()
+        seriesDao = db.SeriesDao()
     }
 
-
-    fun insertComics(comicsDto: ComicsDto) {
-        // var disposable = CompositeDisposable()
+    fun insertSeries(seriesDto: SeriesDto) {
         Completable.create {
-            comicsDao.insert(comicsDto.toComicsEntity())
-            it.onComplete()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onSubscribe(d: Disposable) {
-                    //   disposable = d as CompositeDisposable
-                }
-
-                override fun onComplete() {
-                    //   disposable.dispose()
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-            })
-    }
-
-
-    fun updateComics(comicsDto: ComicsDto) {
-        Completable.create {
-            comicsDao.update(comicsDto.toComicsEntity())
+            seriesDao.insert(seriesDto.toSeriesEntity())
             it.onComplete()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -61,6 +35,7 @@ class ComicsRepository(application: Application) {
                 }
 
                 override fun onComplete() {
+
                 }
 
                 override fun onError(e: Throwable) {
@@ -69,10 +44,9 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
-    fun deleteAllComics() {
+    fun updateSeries(seriesDto: SeriesDto) {
         Completable.create {
-            comicsDao.deleteAllComics()
+            seriesDao.insert(seriesDto.toSeriesEntity())
             it.onComplete()
         }
             .subscribeOn(Schedulers.io())
@@ -90,17 +64,14 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
-    fun deleteComics(_id: Long) {
+    fun deleteAllSeries() {
         Completable.create {
-            comicsDao.deleteComics(_id = _id)
+            seriesDao.deleteAllSeries()
             it.onComplete()
-        }
-            .subscribeOn(Schedulers.io())
+        }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable) {
-
                 }
 
                 override fun onComplete() {
@@ -112,45 +83,56 @@ class ComicsRepository(application: Application) {
             })
     }
 
+    fun deleteSeries(_id: Long) {
+        Completable.create {
+            seriesDao.deleteSeries(_id)
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onSubscribe(d: Disposable) {
+                }
 
-    fun getAllComics(): Flowable<List<ComicsDto>> {
-        val flowableList = comicsDao.getAllComics()
-        lateinit var comicsDto: ComicsDto
+                override fun onComplete() {
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+            })
+    }
+
+    fun getAllSeries(): Flowable<List<SeriesDto>> {
+        lateinit var seriesDto: SeriesDto
+        val flowableList = seriesDao.getAllSeries()
         return flowableList.map {
-            it.map { comicsEntity ->
-                comicsDao.insert(comicsEntity)
-                comicsDto = comicsEntity.toComicsDto()
-                comicsDto
+            it.map { series ->
+
+                series.toSeriesDto()
+                seriesDto = series.toSeriesDto()
+                seriesDto
             }
         }
     }
 
-
-    fun getComics(_id: Long): Flowable<ComicsDto> {
-        val flowableList = comicsDao.getComics(_id = _id)
-        lateinit var comicsDto: ComicsDto
-        return flowableList.map {
-            comicsDto = it.toComicsDto()
-            comicsDto
+    fun getSeries(_id: Long): Flowable<SeriesDto> {
+        lateinit var seriesDto: SeriesDto
+        val flowable = seriesDao.getSeries(_id)
+        return flowable.map {
+            seriesDto = it.toSeriesDto()
+            seriesDto
         }
     }
 
-
-    fun getComicsRemote(characterId: Long): Flowable<List<ComicsDto>> {
-        lateinit var comicsDto: ComicsDto
+    fun getSeriesRemote(characterId: Long): Flowable<List<SeriesDto>> {
+        lateinit var seriesDto: SeriesDto
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
-        val flowableList = retroInstance.getComics(characterId = characterId)
+        val flowableList = retroInstance.getSeries(characterId = characterId)
         return flowableList.map {
-            it.data.result.map { comics ->
-
-                comicsDto = comics.toComicsDto()
-                comicsDao.insert(
-                    ComicsEntity(
-                        comicsDto._id, comicsDto.title,
-                        comicsDto.description, comicsDto.thumbnail
-                    )
-                )
-                comicsDto
+            it.data.result.map { series ->
+                seriesDto = series.toSeriesDto()
+                seriesDao.insert(seriesDto.toSeriesEntity())
+                seriesDto
             }
         }
     }

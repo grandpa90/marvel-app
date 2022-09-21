@@ -1,12 +1,11 @@
 package com.grandpa.marvelapp.repositories
 
 import android.app.Application
-import com.grandpa.marvelapp.model.dto.ComicsDto
+import com.grandpa.marvelapp.model.dto.EventsDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
 import com.grandpa.marvelapp.roomdb.MarvelRoomDB
-import com.grandpa.marvelapp.roomdb.daos.ComicsDao
-import com.grandpa.marvelapp.roomdb.entities.ComicsEntity
+import com.grandpa.marvelapp.roomdb.daos.EventsDao
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -14,50 +13,25 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class ComicsRepository(application: Application) {
+class EventsRepository(application: Application) {
 
-    var comicsDao: ComicsDao
+    var eventsDao: EventsDao
     var db: MarvelRoomDB
 
     init {
         db = MarvelRoomDB.getDatabase(application)
-        comicsDao = db.ComicsDao()
+        eventsDao = db.EventsDao()
     }
 
 
-    fun insertComics(comicsDto: ComicsDto) {
-        // var disposable = CompositeDisposable()
+    fun insertEvents(eventsDto: EventsDto) {
         Completable.create {
-            comicsDao.insert(comicsDto.toComicsEntity())
+            eventsDao.insert(eventsDto.toEventsEntity())
             it.onComplete()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
                 override fun onSubscribe(d: Disposable) {
-                    //   disposable = d as CompositeDisposable
-                }
-
-                override fun onComplete() {
-                    //   disposable.dispose()
-                }
-
-                override fun onError(e: Throwable) {
-
-                }
-
-            })
-    }
-
-
-    fun updateComics(comicsDto: ComicsDto) {
-        Completable.create {
-            comicsDao.update(comicsDto.toComicsEntity())
-            it.onComplete()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onSubscribe(d: Disposable) {
-
                 }
 
                 override fun onComplete() {
@@ -69,31 +43,9 @@ class ComicsRepository(application: Application) {
             })
     }
 
-
-    fun deleteAllComics() {
+    fun updateEvents(eventsDto: EventsDto) {
         Completable.create {
-            comicsDao.deleteAllComics()
-            it.onComplete()
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onSubscribe(d: Disposable) {
-
-                }
-
-                override fun onComplete() {
-                }
-
-                override fun onError(e: Throwable) {
-                }
-            })
-    }
-
-
-    fun deleteComics(_id: Long) {
-        Completable.create {
-            comicsDao.deleteComics(_id = _id)
+            eventsDao.update(eventsDto.toEventsEntity())
             it.onComplete()
         }
             .subscribeOn(Schedulers.io())
@@ -112,47 +64,77 @@ class ComicsRepository(application: Application) {
             })
     }
 
+    fun deleteEvents() {
+        Completable.create {
+            eventsDao.deleteAllEvenet()
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onSubscribe(d: Disposable) {
 
-    fun getAllComics(): Flowable<List<ComicsDto>> {
-        val flowableList = comicsDao.getAllComics()
-        lateinit var comicsDto: ComicsDto
+                }
+
+                override fun onComplete() {
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+            })
+    }
+
+    fun deleteEvent(_id: Long) {
+        Completable.create {
+            eventsDao.deleteEvenet(_id)
+            it.onComplete()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onSubscribe(d: Disposable) {
+                }
+
+                override fun onComplete() {
+                }
+
+                override fun onError(e: Throwable) {
+                }
+
+            })
+    }
+
+    fun getAllEvents(): Flowable<List<EventsDto>> {
+        lateinit var eventsDto: EventsDto
+        val flowableList = eventsDao.getAllEvents()
         return flowableList.map {
-            it.map { comicsEntity ->
-                comicsDao.insert(comicsEntity)
-                comicsDto = comicsEntity.toComicsDto()
-                comicsDto
+            it.map { events ->
+                eventsDto = events.toEventsDto()
+                eventsDto
             }
         }
     }
 
-
-    fun getComics(_id: Long): Flowable<ComicsDto> {
-        val flowableList = comicsDao.getComics(_id = _id)
-        lateinit var comicsDto: ComicsDto
-        return flowableList.map {
-            comicsDto = it.toComicsDto()
-            comicsDto
+    fun getEvent(_id: Long): Flowable<EventsDto> {
+        lateinit var eventsDto: EventsDto
+        val flowable = eventsDao.getEvent(_id)
+        return flowable.map {
+            eventsDto = it.toEventsDto()
+            eventsDto
         }
     }
 
-
-    fun getComicsRemote(characterId: Long): Flowable<List<ComicsDto>> {
-        lateinit var comicsDto: ComicsDto
+    fun getEventsRemote(characterId: Long): Flowable<List<EventsDto>> {
+        lateinit var eventsDto: EventsDto
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
-        val flowableList = retroInstance.getComics(characterId = characterId)
+        val flowableList = retroInstance.getEvents(characterId = characterId)
         return flowableList.map {
-            it.data.result.map { comics ->
-
-                comicsDto = comics.toComicsDto()
-                comicsDao.insert(
-                    ComicsEntity(
-                        comicsDto._id, comicsDto.title,
-                        comicsDto.description, comicsDto.thumbnail
-                    )
-                )
-                comicsDto
+            it.data.result.map { event ->
+                eventsDto = event.eventsToDto()
+                eventsDao.insert(eventsDto.toEventsEntity())
+                eventsDto
             }
         }
     }
+
 
 }

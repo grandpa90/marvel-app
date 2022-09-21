@@ -97,12 +97,7 @@ class StoriesRepository(application: Application) {
         return flowableList.map {
             it.data.result.map { stories ->
                 storiesDto = stories.toStoriesDto()
-                storiesDao.insert(
-                    StoriesEntity(
-                        storiesDto._id, storiesDto.title,
-                        storiesDto.description, storiesDto.thumbnail
-                    )
-                )
+                storiesDao.insert(storiesDto.toStoriesEntity())
                 storiesDto
             }
         }
