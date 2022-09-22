@@ -1,11 +1,11 @@
 package com.grandpa.marvelapp.repositories
 
-import android.app.Application
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
 import com.grandpa.marvelapp.roomdb.MarvelRoomDB
 import com.grandpa.marvelapp.roomdb.daos.CharacterDao
+import com.grandpa.marvelapp.utils.MarvelAppApplicationClass.Companion.context
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
@@ -14,14 +14,14 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 // repository for manipulating the data ...
-class CharacterRepository(application: Application) {
+class CharacterRepository {
 
     // declare  the dao interface
     var characterDao: CharacterDao
 
     init {
         // initialize the room db
-        val db = MarvelRoomDB.getDatabase(application)
+        val db = MarvelRoomDB.getDatabase(context)
         // initialize the dao interface
         characterDao = db.CharacterDao()
     }

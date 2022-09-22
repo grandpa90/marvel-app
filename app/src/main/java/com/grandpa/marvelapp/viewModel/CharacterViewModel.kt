@@ -1,17 +1,13 @@
 package com.grandpa.marvelapp.viewModel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.repositories.CharacterRepository
 import io.reactivex.Flowable
-// calling all function of the repo inside the view model
-class CharacterViewModel(application: Application) : AndroidViewModel(application) {
-    private var characterRepository: CharacterRepository
 
-    init {
-        characterRepository = CharacterRepository(application)
-    }
+// calling all function of the repo inside the view model
+class CharacterViewModel : ViewModel() {
+    private var characterRepository: CharacterRepository = CharacterRepository()
 
     fun insertCharacter(characterDto: CharacterDto) {
         characterRepository.insertCharacter(characterDto)

@@ -15,7 +15,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
-    lateinit var characterViewModel: CharacterViewModel
     lateinit var characterAdapter: CharacterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,11 +24,13 @@ class MainActivity : AppCompatActivity() {
         setupUI()
 
 
+
     }
 
     private fun setupUI() {
         val recyclerView: RecyclerView = findViewById(R.id.charRecyclerView)
-        characterViewModel = ViewModelProvider(this).get(CharacterViewModel::class.java)
+        val characterViewModel = ViewModelProvider(this)[CharacterViewModel::class.java]
+
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             val decoration = DividerItemDecoration(applicationContext, VERTICAL)
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
             characterAdapter = CharacterAdapter()
             adapter = characterAdapter
         }
+
 
 
         val disposable = characterViewModel.getCharactersRemote().subscribeOn(Schedulers.io())

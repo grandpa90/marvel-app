@@ -15,8 +15,11 @@ class MarvelAppApplicationClass: Application() {
     override fun onCreate() {
         super.onCreate()
         // initialize room db on application class
+
         context = this
-        marvelRoomDB = MarvelRoomDB.getDatabase(context)
+        marvelRoomDB = MarvelRoomDB.getDatabase(this)
+        val database by lazy { MarvelRoomDB.getDatabase(this) }
+
 
     }
 }
