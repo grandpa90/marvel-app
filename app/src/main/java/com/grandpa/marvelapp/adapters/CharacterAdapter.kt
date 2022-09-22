@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.grandpa.marvelapp.R
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.utils.MarvelAppApplicationClass.Companion.context
-import com.squareup.picasso.Picasso
 
 class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
 
@@ -26,12 +26,12 @@ class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
             tvDescription.text = data.description
             val url = data.thumbnail
             Log.wtf("ULR", url)
-            Picasso.with(context).load(url).into(imageView)
+//            Picasso.with(context).load(url).into(imageView)
 
-//            Glide.with(context)
-//                .load(url)
-//                .circleCrop()
-//                .into(imageView)
+            Glide.with(context)
+                .load(url)
+                .circleCrop()
+                .into(imageView)
         }
     }
 
