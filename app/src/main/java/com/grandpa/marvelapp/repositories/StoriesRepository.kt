@@ -1,28 +1,29 @@
 package com.grandpa.marvelapp.repositories
 
-import android.app.Application
 import com.grandpa.marvelapp.model.dto.StoriesDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
 import com.grandpa.marvelapp.roomdb.MarvelRoomDB
 import com.grandpa.marvelapp.roomdb.daos.StoriesDao
 import com.grandpa.marvelapp.roomdb.entities.StoriesEntity
+import com.grandpa.marvelapp.utils.MarvelAppApplicationClass.Companion.context
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+
 // repository for manipulating the data
 
-class StoriesRepository(application: Application) {
+class StoriesRepository() {
     // decalring interface and room db
     private var storiesDao: StoriesDao
     private var db: MarvelRoomDB
 
     init {
         // initializing the room db and interface
-        db = MarvelRoomDB.getDatabase(application)
+        db = MarvelRoomDB.getDatabase(context = context)
         storiesDao = db.StoriesDao()
     }
 
@@ -145,7 +146,7 @@ class StoriesRepository(application: Application) {
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
         val flowableList = retroInstance.getStories(characterId = characterId)
         return flowableList.map {
-            it.data.result.map { stories ->
+            it.data.results.map { stories ->
                 storiesDto = stories.toStoriesDto()
                 storiesDao.insert(storiesDto.toStoriesEntity())
                 storiesDto

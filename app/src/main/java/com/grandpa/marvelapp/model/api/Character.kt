@@ -20,7 +20,7 @@ data class Character(
             _id = _id,
             name = mcName,
             description = mcDescription,
-            thumbnail = (thumbnail.path + thumbnail.extension)
+            thumbnail = (thumbnail.path + "." + thumbnail.extension)
         )
     }
 }

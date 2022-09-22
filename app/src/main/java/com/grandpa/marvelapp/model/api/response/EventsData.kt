@@ -7,5 +7,5 @@ data class EventsData(
     var limit: Int,
     var total: Int,
     var count: Int,
-    var result: List<Events>
+    var results: List<Events>
 )

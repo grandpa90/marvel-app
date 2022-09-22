@@ -17,8 +17,8 @@ interface CharacterDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(character: CharacterEntity)
 
-    @Query("DELETE FROM CHARACTERENTITY WHERE character_id= :_id")
-    fun deleteCharacter(_id: Long)
+    @Query("DELETE FROM CHARACTERENTITY WHERE character_id =:id")
+    fun deleteCharacter(id: Long)
 
     @Query("DELETE  from CHARACTERENTITY")
     fun deleteAll()
@@ -26,6 +26,6 @@ interface CharacterDao {
     @Query("SELECT * FROM CHARACTERENTITY")
     fun getAllCharacter(): Flowable<List<CharacterEntity>>
 
-    @Query("SELECT * FROM CharacterEntity where character_id= :_id")
-    fun getCharacter(_id: Long): Flowable<CharacterEntity>
+    @Query("SELECT * FROM CharacterEntity where character_id=:id")
+    fun getCharacter(id: Long): Flowable<CharacterEntity>
 }

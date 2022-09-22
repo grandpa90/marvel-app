@@ -18,14 +18,14 @@ interface StoriesDao {
     @Query("SELECT * FROM STORIES_ENTITY")
     fun getAllStories(): Flowable<List<StoriesEntity>>
 
-    @Query("SELECT * FROM STORIES_ENTITY where :_id")
-    fun getStories(_id: Long): Flowable<StoriesEntity>
+    @Query("SELECT * FROM STORIES_ENTITY where stories_id = :id")
+    fun getStories(id: Long): Flowable<StoriesEntity>
 
     @Query("DELETE FROM STORIES_ENTITY")
     fun deleteAllStories()
 
-    @Query("DELETE FROM STORIES_ENTITY WHERE :_id")
-    fun deleteStories(_id: Long)
+    @Query("DELETE FROM STORIES_ENTITY WHERE stories_id = :id")
+    fun deleteStories(id: Long)
 
 
 }

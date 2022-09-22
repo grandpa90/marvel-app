@@ -8,5 +8,5 @@ data class StoriesData(
     var limit: Int,
     var total: Int,
     var count: Int,
-    var result: List<Stories>
+    var results: List<Stories>
 )

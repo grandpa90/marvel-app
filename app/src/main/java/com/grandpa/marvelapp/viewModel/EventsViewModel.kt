@@ -1,19 +1,15 @@
 package com.grandpa.marvelapp.viewModel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.grandpa.marvelapp.model.dto.EventsDto
 import com.grandpa.marvelapp.repositories.EventsRepository
 import io.reactivex.Flowable
+
 // calling all function of the repo inside the view model
 
-class EventsViewModel(application: Application) : AndroidViewModel(application) {
+class EventsViewModel() : ViewModel() {
 
-    var eventsRepository: EventsRepository
-
-    init {
-        eventsRepository = EventsRepository(application)
-    }
+    var eventsRepository: EventsRepository = EventsRepository()
 
     fun insertEvent(eventsDto: EventsDto) {
         eventsRepository.insertEvents(eventsDto)

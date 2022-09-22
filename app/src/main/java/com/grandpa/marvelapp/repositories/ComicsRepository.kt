@@ -1,21 +1,22 @@
 package com.grandpa.marvelapp.repositories
 
-import android.app.Application
 import com.grandpa.marvelapp.model.dto.ComicsDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
 import com.grandpa.marvelapp.roomdb.MarvelRoomDB
 import com.grandpa.marvelapp.roomdb.daos.ComicsDao
 import com.grandpa.marvelapp.roomdb.entities.ComicsEntity
+import com.grandpa.marvelapp.utils.MarvelAppApplicationClass.Companion.context
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+
 // repository for manipulating online and ofline data
 
-class ComicsRepository(application: Application) {
+class ComicsRepository() {
 
     // declaring interface and room db
     var comicsDao: ComicsDao
@@ -23,7 +24,7 @@ class ComicsRepository(application: Application) {
 
     init {
         // initializing interface and room db
-        db = MarvelRoomDB.getDatabase(application)
+        db = MarvelRoomDB.getDatabase(context = context)
         comicsDao = db.ComicsDao()
     }
 
@@ -96,7 +97,7 @@ class ComicsRepository(application: Application) {
     // delete comicss by id from roomdb  with completable observer
     fun deleteComics(_id: Long) {
         Completable.create {
-            comicsDao.deleteComics(_id = _id)
+            comicsDao.deleteComics(id = _id)
             it.onComplete() // signal the streamer
         }
             .subscribeOn(Schedulers.io())
@@ -133,7 +134,7 @@ class ComicsRepository(application: Application) {
     // get  comics by id  from room db with Flowable observer
     // mapping entities into dto to be presented into the view
     fun getComics(_id: Long): Flowable<ComicsDto> {
-        val flowableList = comicsDao.getComics(_id = _id)
+        val flowableList = comicsDao.getComics(id = _id)
         lateinit var comicsDto: ComicsDto
         return flowableList.map {
             comicsDto = it.toComicsDto()
@@ -148,7 +149,7 @@ class ComicsRepository(application: Application) {
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
         val flowableList = retroInstance.getComics(characterId = characterId)
         return flowableList.map {
-            it.data.result.map { comics ->
+            it.data.results.map { comics ->
 
                 comicsDto = comics.toComicsDto()
                 comicsDao.insert(

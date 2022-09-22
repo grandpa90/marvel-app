@@ -7,5 +7,5 @@ data class SeriesData(
     var limit: Int,
     var total: Int,
     var count: Int,
-    var result: List<Series>
+    var results: List<Series>
 )

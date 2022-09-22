@@ -20,14 +20,14 @@ interface EventsDao {
     @Query("SELECT * FROM events_entity")
     fun getAllEvents(): Flowable<List<EventsEntity>>
 
-    @Query("SELECT * FROM events_entity where :_id")
-    fun getEvent(_id: Long): Flowable<EventsEntity>
+    @Query("SELECT * FROM events_entity where events_id = :id")
+    fun getEvent(id: Long): Flowable<EventsEntity>
 
     @Query("DELETE FROM EVENTS_ENTITY")
     fun deleteAllEvenet()
 
-    @Query("DELETE FROM EVENTS_ENTITY where :_id")
-    fun deleteEvenet(_id: Long)
+    @Query("DELETE FROM EVENTS_ENTITY where events_id = :id")
+    fun deleteEvenet(id: Long)
 
 
 }

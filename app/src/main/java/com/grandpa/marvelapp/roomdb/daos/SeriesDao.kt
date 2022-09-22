@@ -20,14 +20,14 @@ interface SeriesDao {
     @Query("SELECT * FROM SERIES_ENTITY")
     fun getAllSeries(): Flowable<List<SeriesEntity>>
 
-    @Query("SELECT * FROM SERIES_ENTITY WHERE :_id")
-    fun getSeries(_id: Long): Flowable<SeriesEntity>
+    @Query("SELECT * FROM SERIES_ENTITY WHERE  series_id = :id")
+    fun getSeries(id: Long): Flowable<SeriesEntity>
 
     @Query("DELETE FROM SERIES_ENTITY")
     fun deleteAllSeries()
 
-    @Query("DELETE FROM SERIES_ENTITY WHERE:_id")
-    fun deleteSeries(_id: Long)
+    @Query("DELETE FROM SERIES_ENTITY WHERE series_id = :id")
+    fun deleteSeries(id: Long)
 
 
 }

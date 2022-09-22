@@ -1,5 +1,6 @@
 package com.grandpa.marvelapp.repositories
 
+import android.util.Log
 import com.grandpa.marvelapp.model.dto.CharacterDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
@@ -108,7 +109,7 @@ class CharacterRepository {
     // get character by id with flowable observer
     fun getCharacter(_id: Long): Flowable<CharacterDto> {
         lateinit var characterDto: CharacterDto
-        val flowableEntity = characterDao.getCharacter(_id = _id)
+        val flowableEntity = characterDao.getCharacter(id = _id)
         // mapping entity into dto
         return flowableEntity.map {
             characterDto = it.toCharacterDto()
@@ -135,7 +136,8 @@ class CharacterRepository {
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
         val flowableList = retroInstance.getCharacters()
         return flowableList.map {
-            it.data.result
+            Log.wtf("E123", it.toString())
+            it.data.results
                 .map { character ->
                     characterDto = character.characterToDto()
                     // here we need to insert

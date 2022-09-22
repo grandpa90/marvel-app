@@ -25,7 +25,7 @@ class Constants {
      */
     object DEV_API {
         const val BASE_API =
-            "http://gateway.marvel.com/v1/public/" // bas url for retrofit of marvel apis
+            "https://gateway.marvel.com/v1/public/" // bas url for retrofit of marvel apis
     }
 
     /*

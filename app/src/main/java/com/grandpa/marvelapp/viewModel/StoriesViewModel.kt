@@ -1,19 +1,14 @@
 package com.grandpa.marvelapp.viewModel
 // calling all function of the repo inside the view model
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import com.grandpa.marvelapp.model.dto.StoriesDto
 import com.grandpa.marvelapp.repositories.StoriesRepository
 import io.reactivex.Flowable
 
-class StoriesViewModel(application: Application) : AndroidViewModel(application) {
+class StoriesViewModel() : ViewModel() {
 
-    private var storiesRepository: StoriesRepository
-
-    init {
-        storiesRepository = StoriesRepository(application)
-    }
+    private var storiesRepository: StoriesRepository = StoriesRepository()
 
     fun insertStory(storiesDto: StoriesDto) {
         storiesRepository.insertStory(storiesDto)
