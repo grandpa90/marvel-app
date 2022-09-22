@@ -1,6 +1,10 @@
 package com.grandpa.marvelapp.activities
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -14,9 +18,10 @@ import com.grandpa.marvelapp.viewModel.CharacterViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 class MainActivity : AppCompatActivity() {
     lateinit var characterAdapter: CharacterAdapter
-
+    lateinit var characterViewModel: CharacterViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeNewSplash()
@@ -28,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI() {
         val recyclerView: RecyclerView = findViewById(R.id.charRecyclerView)
-        val characterViewModel = ViewModelProvider(this)[CharacterViewModel::class.java]
+        characterViewModel = ViewModelProvider(this)[CharacterViewModel::class.java]
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -50,6 +55,30 @@ class MainActivity : AppCompatActivity() {
                 throw Exception().fillInStackTrace()
             })
 
+
+        characterAdapter.setOnItemClickListener(object : CharacterAdapter.onItemClickListener {
+            override fun onItemClick(postion: Int) {
+                Log.wtf("POSITION", postion.toString())
+                val disposable = characterViewModel.getCharacters().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+                        val id = it[postion]._id // either passed by rx or saved into sharedPrefs...
+                        val prefs: SharedPreferences = getSharedPreferences(
+                            "com.grandpa.marvelapp", Context.MODE_PRIVATE
+                        )
+
+                        prefs.edit().putLong("characterId", id).apply()
+                        val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+                        startActivity(intent)
+
+
+                    }, {
+                        throw Exception().fillInStackTrace()
+                    })
+            }
+        })
+        // we need to add listener for recycler view
+
 //            .subscribe {
 //                Log.wtf("COUNT",it.size.toString())
 //                if (it != null) {
@@ -66,5 +95,6 @@ class MainActivity : AppCompatActivity() {
         val splash = installSplashScreen()
 
     }
+
 
 }

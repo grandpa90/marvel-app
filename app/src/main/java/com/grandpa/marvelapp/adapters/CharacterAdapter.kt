@@ -14,12 +14,33 @@ import com.grandpa.marvelapp.utils.MarvelAppApplicationClass.Companion.context
 
 class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
 
+    private lateinit var mListener: onItemClickListener
+
+    interface onItemClickListener {
+        fun onItemClick(postion: Int)
+
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        mListener = listener
+    }
+
+
     var characterListData = mutableListOf<CharacterDto>()
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class MyViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
+
         private val tvName: TextView = view.findViewById(R.id.tvName)
         private val tvDescription: TextView = view.findViewById(R.id.tvDescription)
         private val imageView: ImageView = view.findViewById(R.id.charThumbImageView)
+
+
+        init {
+            view.setOnClickListener {
+                listener.onItemClick(postion = adapterPosition)
+            }
+
+        }
 
         fun bind(data: CharacterDto) {
             tvName.text = data.name
@@ -38,7 +59,8 @@ class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.character_item_row, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.character_item_row, parent, false),
+            mListener
         )
     }
 
