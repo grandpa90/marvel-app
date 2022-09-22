@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/character_item_row.xml" value="0.9107013210433734" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11041666666666666" />
+        <entry key="app/src/main/res/layout/character_item_row.xml" value="0.18600649682462334" />
         <entry key="app/src/main/res/layout/comics_item_row.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/events_item_row.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/series_item_row.xml" value="0.19610507246376813" />

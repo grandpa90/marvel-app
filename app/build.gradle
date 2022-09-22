@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
     id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
 }
@@ -35,11 +38,16 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.13'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.1.1'
+    implementation 'com.google.firebase:firebase-perf-ktx:20.1.1'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.8'
 
-    def firebase_analytics_version = "18.2.13"
-    def firebase_crash_analytics_version = "21.1.1"
-    def firebase_pref_ktx_version = "20.1.1"
-    def firebase_messaging_pref_ktx_version = "23.0.8"
+
+//    def firebase_analytics_version = "18.2.13"
+//    def firebase_crash_analytics_version = "21.1.1"
+//    def firebase_pref_ktx_version = "20.1.1"
+//    def firebase_messaging_pref_ktx_version = "23.0.8"
     def room_version = "2.4.3"
     def recycler_view_version = "1.2.1"
     def rx_android_version = "2.1.0"
@@ -94,10 +102,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:$picasso_version")
 
     // firebase
-    implementation "com.google.firebase:firebase-crashlytics-ktx:$firebase_analytics_version"
-    implementation "com.google.firebase:firebase-analytics-ktx:$firebase_analytics_version"
-    implementation "com.google.firebase:firebase-perf-ktx:$firebase_pref_ktx_version"
-    implementation "com.google.firebase:firebase-messaging-ktx:$firebase_messaging_pref_ktx_version"
+
 
     // card view
     implementation "androidx.cardview:cardview:$card_view_version"
