@@ -1,10 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.grandpa.marvelapp"
@@ -32,6 +34,8 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.11'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.1.0'
     def room_version = "2.4.3"
     def recycler_view_version = "1.2.1"
     def rx_android_version = "2.1.0"
@@ -42,6 +46,7 @@ dependencies {
     def logging_interceptors_version = "4.9.0"
     def picasso_version = "2.5.2"
     def picasso2_okhttp3_downloader = "1.1.0"
+    def card_view_version = "1.0.0"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -82,5 +87,9 @@ dependencies {
     // picasso gradle & downloader
     implementation("com.jakewharton.picasso:picasso2-okhttp3-downloader:$picasso2_okhttp3_downloader")
     implementation("com.squareup.picasso:picasso:$picasso_version")
+
+    // card view
+    implementation "androidx.cardview:cardview:$card_view_version"
+
 
 }
