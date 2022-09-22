@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         setupUI()
 
 
-
     }
 
     private fun setupUI() {
@@ -40,17 +39,25 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         val disposable = characterViewModel.getCharactersRemote().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                if (it != null) {
-                    characterAdapter.characterListData = it.toMutableList()
+            .subscribe({ list ->
+                if (list != null) {
+                    characterAdapter.characterListData = list.toMutableList()
                     characterAdapter.notifyDataSetChanged() // this should be changed for improving performence on high traffic
                 }
+            }, {
+                throw Exception().fillInStackTrace()
+            })
 
-            }
-
+//            .subscribe {
+//                Log.wtf("COUNT",it.size.toString())
+//                if (it != null) {
+//                    characterAdapter.characterListData = it.toMutableList()
+//                    characterAdapter.notifyDataSetChanged() // this should be changed for improving performence on high traffic
+//                }
+//
+//            }
 
     }
 
