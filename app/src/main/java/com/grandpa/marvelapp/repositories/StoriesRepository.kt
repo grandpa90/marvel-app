@@ -1,5 +1,6 @@
 package com.grandpa.marvelapp.repositories
 
+import android.util.Log
 import com.grandpa.marvelapp.model.dto.StoriesDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
@@ -146,6 +147,8 @@ class StoriesRepository() {
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
         val flowableList = retroInstance.getStories(characterId = characterId)
         return flowableList.map {
+            Log.wtf("E123", it.toString())
+
             it.data.results.map { stories ->
                 storiesDto = stories.toStoriesDto()
                 storiesDao.insert(storiesDto.toStoriesEntity())

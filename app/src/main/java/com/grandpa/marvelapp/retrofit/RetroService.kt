@@ -13,14 +13,15 @@ interface RetroService {
 
     @GET("characters/{characterId}/comics")
     fun getComics(@Path("characterId") characterId: Long): Flowable<ComicsResponse>
-
+    //fun getComics(@Query("characterId") characterId: Long):Flowable<ComicsResponse>
     @GET("character/{characterId}/stories")
     fun getStories(@Path("characterId") characterId: Long): Flowable<StoriesResponse>
 
+    //fun getStories(@Query("characterId") characterId: Long):Flowable<StoriesResponse>
     @GET("character/{characterId}/events")
     fun getEvents(@Path("characterId") characterId: Long): Flowable<EventsResponse>
 
-    @GET("character/{characterId}/series")
+    @GET("character/{characterId}/series?")
     fun getSeries(@Path("characterId") characterId: Long): Flowable<SeriesResponse>
 
 

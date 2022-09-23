@@ -12,6 +12,6 @@ data class Events(
 ) {
     // convert event model api to event dto (Data Transfer OBJECT)
     fun eventsToDto(): EventsDto {
-        return EventsDto(_id, title, description, (thumbnail.path + thumbnail.path))
+        return EventsDto(_id, title, description, (thumbnail.path + "." + thumbnail.path))
     }
 }

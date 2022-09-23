@@ -1,5 +1,6 @@
 package com.grandpa.marvelapp.repositories
 
+import android.util.Log
 import com.grandpa.marvelapp.model.dto.EventsDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
@@ -139,6 +140,8 @@ class EventsRepository() {
         val retroInstance = RetroInstance.getRxRetrofitInstance().create(RetroService::class.java)
         val flowableList = retroInstance.getEvents(characterId = characterId)
         return flowableList.map {
+            Log.wtf("E123", it.toString())
+
             it.data.results.map { event ->
                 eventsDto = event.eventsToDto()
                 eventsDao.insert(eventsDto.toEventsEntity())

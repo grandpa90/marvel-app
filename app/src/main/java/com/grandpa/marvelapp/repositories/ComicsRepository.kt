@@ -1,5 +1,6 @@
 package com.grandpa.marvelapp.repositories
 
+import android.util.Log
 import com.grandpa.marvelapp.model.dto.ComicsDto
 import com.grandpa.marvelapp.retrofit.RetroInstance
 import com.grandpa.marvelapp.retrofit.RetroService
@@ -150,6 +151,7 @@ class ComicsRepository() {
         val flowableList = retroInstance.getComics(characterId = characterId)
         return flowableList.map {
             it.data.results.map { comics ->
+                Log.wtf("E123", it.toString())
 
                 comicsDto = comics.toComicsDto()
                 comicsDao.insert(

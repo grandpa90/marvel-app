@@ -26,6 +26,7 @@ class ComicsAdapter : RecyclerView.Adapter<ComicsAdapter.MyViewHolder>() {
             tvName.text = data.title
             tvDescription.text = data.description
             val url = data.thumbnail
+
             Log.wtf("ULR", url)
 //            Picasso.with(context).load(url).into(imageView)
 
